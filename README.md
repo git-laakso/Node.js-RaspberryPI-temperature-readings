@@ -1,5 +1,5 @@
 # RaspberryPI-temperature-readings
-Creating Express server that reads DHT-11 sensor and Raspberrys own CPU temperature sensor. Uploading data to database using Mongoose.
+Creating Express server that reads DHT-11 sensor and Raspberrys own CPU temperature sensor. Uploading data to database using Mongoose. Using Cron Job to schedule a task.
 
 ## This project isn't finished yet and this was my summer project.
 
@@ -11,3 +11,6 @@ Creating Express server that reads DHT-11 sensor and Raspberrys own CPU temperat
 -
 ![dht-3](https://user-images.githubusercontent.com/52996898/69889778-8115c400-12fb-11ea-91b1-ab2a21d30f8d.PNG)
 
+## Installing npm dependencies:
+Npm i express --save,- mongoose,- node-cron,- mongoose,- node-dht-sensor.
+Only runs on Raspberry.
