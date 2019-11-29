@@ -1,7 +1,7 @@
 # RaspberryPI-temperature-readings
 Creating Express server that reads DHT-11 sensor and Raspberrys own CPU temperature sensor. Uploading data to database using Mongoose.
 
-## This project isn't finished yet!
+## This project isn't finished yet and this was my summer project.
 
 ## Scripts and comments are written in English. However the full documentatios is written in Finnish.
 
