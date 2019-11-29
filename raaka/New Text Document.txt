@@ -1,0 +1,61 @@
+const cron = require("node-cron");
+const Log = require("./models/tempschema.js");
+const express = require("express");
+const app = express();
+const fs = require("fs");
+const mongoose = require("mongoose");
+const db = require("./config/keys_dev.js").mongoURI;
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+//
+mongoose
+    .connect(db, { useNewUrlParser: true }) // Let us remove that nasty deprecation warrning :)
+    .then(() => console.log('MongoDB Connected'))
+    .catch(err => console.log(err));
+//
+function runTemp() {
+    const runtemp = fs.readFileSync("/sys/class/thermal/thermal_zone0/temp");
+    const temp_c = runtemp / 1000;
+    let thisTemp = new Log();
+    thisTemp.temp = temp_c;
+    thisTemp.save(function (err) {
+        console.log("New temperature recorded!", temp_c, " C");
+    })
+}
+
+//
+app.set("view engine", "pug");
+
+app.get("/", (req, res) => {
+    let runtemp = fs.readFileSync("/sys/class/thermal/thermal_zone0/temp");
+    let temp_c = runtemp / 1000;
+
+
+    let thisTemp = new Log();
+    thisTemp.temp = temp_c;
+    thisTemp.save(function (err) {
+        if (err) {
+            res.send(err);
+        } else {
+            console.log('New temp recorded in the database as:', temp_c, 'ºC');
+        }
+    });
+    res.send("Raspberrys  cpu tempature: " + temp_c)
+}); //setInterval(intervalFunc, 6000);
+
+//
+
+app.post("/", (req, res) => {
+    console.log("loaded main page");
+});
+
+app.listen(8080)
+cron.schedule('*/20 * * * *', () => {
+    runTemp() +
+        console.log("20 minutes wentby");
+});
+
+
+
